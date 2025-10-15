@@ -137,7 +137,7 @@ def iniciar_aplicacion():
         print("\nSelecciona el modo de ejecución:")
         print("1. Módulos IFCT0109 (CLI)")
         print("2. Módulos IFCT0109 (GUI)")
-        print("3. EjerciciosPython")
+        print("3. EjerciciosPython - Módulo módulo MF0487")
         print("4. Salir")
         opcion = input("Opción: ").strip()
         if opcion == "1" or opcion == "":

@@ -1,4 +1,4 @@
-# 🛡️ 1APSEINPRO - 1Aplicación de seguridad informática para probar
+# 🛡️ IFCT0109 - 1Aplicación de seguridad informática para probar
 
 Una aplicación educativa en Python que implementa ejercicios prácticos de seguridad informática organizados por módulos temáticos. Diseñada como herramienta de aprendizaje.
 
