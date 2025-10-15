@@ -1,5 +1,7 @@
 # 🛡️ IFCT0109 - 1Aplicación de seguridad informática para probar
 
+<img width="1024" height="1024" alt="AFCT0109Logo" src="https://github.com/user-attachments/assets/92c8b698-32cf-4c01-9d92-852130a8182e" />
+
 Una aplicación educativa en Python que implementa ejercicios prácticos de seguridad informática organizados por módulos temáticos. Diseñada como herramienta de aprendizaje.
 
 ## 📋 Descripción
