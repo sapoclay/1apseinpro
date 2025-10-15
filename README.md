@@ -50,7 +50,7 @@ python main.py --gui
 python gui_app.py
 ```
 
-Tras arrancar en modo CLI encontrarás una nueva opción de menú denominada "EjerciciosPython" que lista automáticamente todos los scripts ubicados en la carpeta del mismo nombre y permite ejecutarlos directamente.
+Tras arrancar en modo CLI encontrarás una opción de menú denominada "EjerciciosPython - Módulo módulo MF0487" que lista automáticamente todos los scripts ubicados en la carpeta `EjerciciosPython/modulo MF0487/` y permite ejecutarlos directamente.
 
 ## 📦 Dependencias
 
@@ -66,9 +66,12 @@ Las dependencias están definidas en `requirements.txt`:
 ├── requirements.txt        # Dependencias del proyecto
 ├── gui_app.py              # Interfaz gráfica con Tkinter
 ├── EjerciciosPython/       # Ejercicios individuales accesibles desde el menú
-│   ├── Ejercicio1.py
-│   ├── Ejercicio2.py
-│   └── ...
+│   └── modulo MF0487/
+│       ├── Ejercicio1.py
+│       ├── Ejercicio2.py
+│       ├── ...
+│       ├── ejercicios.md
+│       └── requeriments.txt
 ├── mod_0486.py             # Seguridad en equipos informáticos
 ├── mod_0487.py             # Auditoría de seguridad informática
 ├── mod_0488.py             # Gestión de incidentes
@@ -108,7 +111,7 @@ Las dependencias están definidas en `requirements.txt`:
 - Los archivos `.py` ubicados en `EjerciciosPython/` se muestran automáticamente en el menú "EjerciciosPython" de la aplicación.
 - El listado se ordena numéricamente (Ejercicio1, Ejercicio2, ...), facilitando su ejecución secuencial.
 - Cada script se ejecuta en su propio contexto y puede generar salidas específicas, como informes CSV en el caso de `Ejercicio2.py`.
-- Desde este menú puedes instalar las dependencias adicionales definidas en `EjerciciosPython/requeriments.txt`.
+- Desde este menú puedes instalar las dependencias adicionales definidas en `EjerciciosPython/modulo MF0487/requeriments.txt`.
 
 ## 🖥️ Interfaz gráfica (GUI)
 

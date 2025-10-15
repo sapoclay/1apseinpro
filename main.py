@@ -21,7 +21,7 @@ def menu_ejercicios_python():
     while True:
         limpiar_pantalla()
         modulos = sorted(
-            [ruta for ruta in MODULOS_DIR.glob("*.py") if not ruta.name.startswith("_")],
+            [ruta for ruta in MODULOS_DIR.rglob("*.py") if not ruta.name.startswith("_")],
             key=_orden_ejercicio
         )
 
@@ -30,7 +30,8 @@ def menu_ejercicios_python():
             print("No se encontraron ejercicios en la carpeta EjerciciosPython.")
 
         for indice, ruta in enumerate(modulos, start=1):
-            print(f"{indice}. {ruta.stem}")
+            nombre_relativo = ruta.relative_to(MODULOS_DIR).with_suffix("")
+            print(f"{indice}. {nombre_relativo}")
         print(f"{len(modulos) + 1}. Instalar dependencias (requeriments.txt)")
         print(f"{len(modulos) + 2}. Volver")
 
@@ -70,8 +71,8 @@ def ejecutar_modulo_individual(ruta_modulo: Path):
 
 
 def instalar_dependencias_ejercicios():
-    requirements = MODULOS_DIR / "requeriments.txt"
-    if not requirements.exists():
+    requirements = next(MODULOS_DIR.rglob("requeriments.txt"), None)
+    if not requirements or not requirements.exists():
         print("[ERROR] No se encontró el archivo requeriments.txt.")
         input("Pulsa Enter para continuar...")
         return
