@@ -1,64 +1,73 @@
 import os
 from cryptography.fernet import Fernet
 
+
+def cifrar_archivo_core(ruta):
+    if not os.path.isfile(ruta):
+        raise FileNotFoundError("El archivo no existe.")
+    key = Fernet.generate_key()
+    cipher = Fernet(key)
+    with open(ruta, "rb") as f:
+        data = f.read()
+    token = cipher.encrypt(data)
+    archivo_cifrado = ruta + ".enc"
+    with open(archivo_cifrado, "wb") as f:
+        f.write(token)
+    return {"archivo": archivo_cifrado, "clave": key.decode()}
+
+
+def descifrar_archivo_core(ruta, clave):
+    if not os.path.isfile(ruta):
+        raise FileNotFoundError("El archivo no existe.")
+    cipher = Fernet(clave.encode() if isinstance(clave, str) else clave)
+    with open(ruta, "rb") as f:
+        data = f.read()
+    original = cipher.decrypt(data)
+    archivo_descifrado = ruta.replace(".enc", ".dec")
+    with open(archivo_descifrado, "wb") as f:
+        f.write(original)
+    return archivo_descifrado
+
+
+def generar_mfa_key():
+    return Fernet.generate_key().decode()
+
 # ---------------------------
 # 1. Cifrado de archivos con Fernet
 # ---------------------------
 def cifrado_archivo():
     ruta = input("Ruta del archivo a cifrar: ").strip()
-    if not os.path.isfile(ruta):
-        print("[ERROR] El archivo no existe.")
-        return
-
-    key = Fernet.generate_key()
-    cipher = Fernet(key)
-
-    with open(ruta, "rb") as f:
-        data = f.read()
-
-    token = cipher.encrypt(data)
-    archivo_cifrado = ruta + ".enc"
-    with open(archivo_cifrado, "wb") as f:
-        f.write(token)
-
-    print(f"[OK] Archivo cifrado guardado en {archivo_cifrado}")
-    print(f"Clave para descifrado: {key.decode()} (guárdala en lugar seguro)")
+    try:
+        resultado = cifrar_archivo_core(ruta)
+        print(f"[OK] Archivo cifrado guardado en {resultado['archivo']}")
+        print(f"Clave para descifrado: {resultado['clave']} (guárdala en lugar seguro)")
+    except FileNotFoundError as exc:
+        print(f"[ERROR] {exc}")
+    except Exception as exc:
+        print(f"[ERROR] No se pudo cifrar el archivo: {exc}")
 
 # ---------------------------
 # 2. Descifrado de archivos
 # ---------------------------
 def descifrado_archivo():
     ruta = input("Ruta del archivo cifrado: ").strip()
-    if not os.path.isfile(ruta):
-        print("[ERROR] El archivo no existe.")
-        return
-    key_input = input("Introduce la clave de descifrado: ").strip().encode()
-    cipher = Fernet(key_input)
-
-    with open(ruta, "rb") as f:
-        data = f.read()
-
+    key_input = input("Introduce la clave de descifrado: ").strip()
     try:
-        original = cipher.decrypt(data)
-    except Exception as e:
-        print(f"[ERROR] No se pudo descifrar el archivo: {e}")
-        return
-
-    archivo_descifrado = ruta.replace(".enc", ".dec")
-    with open(archivo_descifrado, "wb") as f:
-        f.write(original)
-    print(f"[OK] Archivo descifrado guardado en {archivo_descifrado}")
+        archivo_descifrado = descifrar_archivo_core(ruta, key_input)
+        print(f"[OK] Archivo descifrado guardado en {archivo_descifrado}")
+    except FileNotFoundError as exc:
+        print(f"[ERROR] {exc}")
+    except Exception as exc:
+        print(f"[ERROR] No se pudo descifrar el archivo: {exc}")
 
 # ---------------------------
 # 3. Generación de clave para autenticación multifactor
 # ---------------------------
 def generacion_mfa():
     print("\n--- Generación de clave simulada para MFA ---")
-    key = Fernet.generate_key()
-    print(f"Clave generada para MFA (simulada): {key.decode()}")
+    key = generar_mfa_key()
+    print(f"Clave generada para MFA (simulada): {key}")
     print("Se puede usar para integrar con Google Authenticator u otra app TOTP.")
-
-import os
 
 # ---------------------------
 # Menú principal del módulo 0489

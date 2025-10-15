@@ -37,7 +37,7 @@ def install_requirements():
     print("Instalando dependencias desde requirements.txt...")
     subprocess.run([pip_exe, 'install', '-r', requirements_file], check=True)
 
-def run_main_app():
+def run_main_app(cli_args=None):
     python_exe = get_python_executable()
     main_file = 'main.py'
     
@@ -46,7 +46,10 @@ def run_main_app():
         sys.exit(1)
     
     print("Iniciando la aplicación...")
-    subprocess.run([python_exe, main_file], check=True)
+    comando = [python_exe, main_file]
+    if cli_args:
+        comando.extend(cli_args)
+    subprocess.run(comando, check=True)
 
 def main():
     # Cambiar al directorio que contenga este script
@@ -57,7 +60,7 @@ def main():
     
     try:
         install_requirements()
-        run_main_app()
+        run_main_app(sys.argv[1:])
     except KeyboardInterrupt:
         print("\nEjecución interrumpida por el usuario (Ctrl+C). Cerrando la aplicación.")
         sys.exit(0)

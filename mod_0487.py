@@ -1,6 +1,51 @@
 import os
 import subprocess
 
+
+def ejecutar_nmap(host):
+    """Ejecuta nmap -sV sobre host y devuelve el resultado en texto."""
+    try:
+        result = subprocess.run(["nmap", "-sV", host], capture_output=True, text=True, check=False)
+        if result.returncode == 0:
+            return result.stdout
+        return result.stdout + "\n" + result.stderr
+    except FileNotFoundError:
+        raise FileNotFoundError("nmap no está instalado o no se encuentra en PATH.")
+
+
+def simulacion_auditoria_info():
+    checklist = {
+        "Usuarios": ["root", "admin", "test"],
+        "Permisos": ["/home/usuario -> 755", "/etc/shadow -> 600"],
+        "Servicios": ["ssh: activo", "ftp: deshabilitado"],
+        "Parches aplicados": ["Kernel actualizado", "OpenSSH actualizado"],
+    }
+    lineas = ["Crea un checklist de auditoría para un servidor ficticio.", "Ejemplo de campos:"]
+    for k, v in checklist.items():
+        lineas.append(f"{k}: {v}")
+    lineas.append("Puedes guardar esta información en un archivo .txt para documentar.")
+    return "\n".join(lineas)
+
+
+def prueba_contrasenas_info():
+    return "\n".join([
+        "⚠️ Este ejercicio requiere John the Ripper o similar.",
+        "Pasos sugeridos:",
+        "1. Coloca un archivo de hashes (ej: hashes.txt) con contraseñas de prueba.",
+        "2. Ejecuta en terminal:",
+        "   john --wordlist=diccionario.txt hashes.txt",
+        "3. Documenta las contraseñas débiles encontradas.",
+    ])
+
+
+def generar_informe_auditoria(archivo):
+    with open(archivo, "w") as f:
+        f.write("Informe de auditoría\n")
+        f.write("====================\n")
+        f.write("Vulnerabilidades detectadas:\n- Ejemplo: Puerto 21 abierto\n")
+        f.write("Nivel de criticidad:\n- Media\n")
+        f.write("Recomendaciones:\n- Deshabilitar FTP si no se usa\n")
+
 # ---------------------------
 # 1. Escaneo de vulnerabilidades
 # ---------------------------
@@ -16,10 +61,10 @@ def escaneo_vulnerabilidades():
     if opcion == "1":
         print(f"Escaneando {ip} con nmap...")
         try:
-            # Escaneo TCP básico con nmap
-            subprocess.run(["nmap", "-sV", ip])
-        except FileNotFoundError:
-            print("[ERROR] nmap no está instalado o no se encuentra en PATH.")
+            salida = ejecutar_nmap(ip)
+            print(salida)
+        except FileNotFoundError as exc:
+            print(f"[ERROR] {exc}")
     elif opcion == "2":
         print("Abre OpenVAS/GVM en tu navegador para escanear la IP y documentar resultados.")
     else:
@@ -30,29 +75,14 @@ def escaneo_vulnerabilidades():
 # ---------------------------
 def simulacion_auditoria():
     print("\n--- Simulación de auditoría ---")
-    print("Crea un checklist de auditoría para un servidor ficticio.")
-    print("Ejemplo de campos:")
-    checklist = {
-        "Usuarios": ["root", "admin", "test"],
-        "Permisos": ["/home/usuario -> 755", "/etc/shadow -> 600"],
-        "Servicios": ["ssh: activo", "ftp: deshabilitado"],
-        "Parches aplicados": ["Kernel actualizado", "OpenSSH actualizado"]
-    }
-    for k, v in checklist.items():
-        print(f"{k}: {v}")
-    print("Puedes guardar esta información en un archivo .txt para documentar.")
+    print(simulacion_auditoria_info())
 
 # ---------------------------
 # 3. Prueba de contraseñas débiles
 # ---------------------------
 def prueba_contrasenas():
     print("\n--- Prueba de contraseñas débiles ---")
-    print("⚠️ Este ejercicio requiere John the Ripper o similar.")
-    print("Pasos sugeridos:")
-    print("1. Coloca un archivo de hashes (ej: hashes.txt) con contraseñas de prueba.")
-    print("2. Ejecuta en terminal:")
-    print("   john --wordlist=diccionario.txt hashes.txt")
-    print("3. Documenta las contraseñas débiles encontradas.")
+    print(prueba_contrasenas_info())
 
 # ---------------------------
 # 4. Informe de auditoría
@@ -64,13 +94,11 @@ def informe_auditoria():
     print("- Nivel de criticidad (Baja, Media, Alta)")
     print("- Recomendaciones de mitigación")
     archivo = input("Nombre del archivo de informe (ej: informe.txt): ").strip()
-    with open(archivo, "w") as f:
-        f.write("Informe de auditoría\n")
-        f.write("====================\n")
-        f.write("Vulnerabilidades detectadas:\n- Ejemplo: Puerto 21 abierto\n")
-        f.write("Nivel de criticidad:\n- Media\n")
-        f.write("Recomendaciones:\n- Deshabilitar FTP si no se usa\n")
-    print(f"[OK] Informe creado en {archivo}")
+    try:
+        generar_informe_auditoria(archivo)
+        print(f"[OK] Informe creado en {archivo}")
+    except Exception as exc:
+        print(f"[ERROR] No se pudo crear el informe: {exc}")
 
 import os
 
