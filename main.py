@@ -5,6 +5,7 @@ import re
 import subprocess
 import runpy
 from pathlib import Path
+from typing import Optional
 import mod_0486
 import mod_0487
 import mod_0488
@@ -17,22 +18,42 @@ MODULOS_DIR = Path(__file__).parent / "EjerciciosPython"
 def limpiar_pantalla():
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def menu_ejercicios_python():
+def menu_ejercicios_python(modulo_nombre: Optional[str] = None):
+    """Muestra el menú de ejercicios Python filtrado por módulo.
+    
+    Args:
+        modulo_nombre: Nombre del módulo a filtrar (ej: 'modulo MF0487', 'modulo MF0488').
+                      Si es None, muestra todos los ejercicios.
+    """
     while True:
         limpiar_pantalla()
-        modulos = sorted(
-            [ruta for ruta in MODULOS_DIR.rglob("*.py") if not ruta.name.startswith("_")],
-            key=_orden_ejercicio
-        )
+        
+        # Filtrar ejercicios según el módulo especificado
+        if modulo_nombre:
+            modulo_dir = MODULOS_DIR / modulo_nombre
+            if modulo_dir.exists():
+                modulos = sorted(
+                    [ruta for ruta in modulo_dir.glob("*.py") if not ruta.name.startswith("_")],
+                    key=_orden_ejercicio
+                )
+            else:
+                modulos = []
+            titulo = f"=== EJERCICIOS PYTHON - {modulo_nombre.upper()} ==="
+        else:
+            modulos = sorted(
+                [ruta for ruta in MODULOS_DIR.rglob("*.py") if not ruta.name.startswith("_")],
+                key=_orden_ejercicio
+            )
+            titulo = "=== EJERCICIOS PYTHON ==="
 
-        print("\n=== EJERCICIOS PYTHON ===")
+        print(f"\n{titulo}")
         if not modulos:
-            print("No se encontraron ejercicios en la carpeta EjerciciosPython.")
+            print(f"No se encontraron ejercicios en {modulo_nombre if modulo_nombre else 'EjerciciosPython'}.")
 
         for indice, ruta in enumerate(modulos, start=1):
             nombre_relativo = ruta.relative_to(MODULOS_DIR).with_suffix("")
             print(f"{indice}. {nombre_relativo}")
-        print(f"{len(modulos) + 1}. Instalar dependencias (requeriments.txt)")
+        print(f"{len(modulos) + 1}. Instalar dependencias (requirements.txt)")
         print(f"{len(modulos) + 2}. Volver")
 
         opcion = input("Selecciona un módulo: ").strip()
@@ -49,7 +70,7 @@ def menu_ejercicios_python():
 
         if indice == len(modulos) + 1:
             limpiar_pantalla()
-            instalar_dependencias_ejercicios()
+            instalar_dependencias_ejercicios(modulo_nombre)
             continue
 
         if 1 <= indice <= len(modulos):
@@ -70,15 +91,25 @@ def ejecutar_modulo_individual(ruta_modulo: Path):
     limpiar_pantalla()
 
 
-def instalar_dependencias_ejercicios():
-    requirements = next(MODULOS_DIR.rglob("requeriments.txt"), None)
+def instalar_dependencias_ejercicios(modulo_nombre: Optional[str] = None):
+    """Instala las dependencias de los ejercicios Python.
+    
+    Args:
+        modulo_nombre: Nombre del módulo específico. Si es None, busca en toda la carpeta.
+    """
+    if modulo_nombre:
+        modulo_dir = MODULOS_DIR / modulo_nombre
+        requirements = next(modulo_dir.glob("requirement*.txt"), None)
+    else:
+        requirements = next(MODULOS_DIR.rglob("requirement*.txt"), None)
+    
     if not requirements or not requirements.exists():
-        print("[ERROR] No se encontró el archivo requeriments.txt.")
+        print(f"[ERROR] No se encontró el archivo requirements.txt en {modulo_nombre if modulo_nombre else 'EjerciciosPython'}.")
         input("Pulsa Enter para continuar...")
         return
 
     comando = [sys.executable, "-m", "pip", "install", "-r", str(requirements)]
-    print("Instalando dependencias para EjerciciosPython...\n")
+    print(f"Instalando dependencias para {modulo_nombre if modulo_nombre else 'EjerciciosPython'}...\n")
     try:
         subprocess.run(comando, check=False)
     except Exception as exc:
@@ -138,8 +169,9 @@ def iniciar_aplicacion():
         print("\nSelecciona el modo de ejecución:")
         print("1. Módulos IFCT0109 (CLI)")
         print("2. Módulos IFCT0109 (GUI)")
-        print("3. EjerciciosPython - Módulo módulo MF0487")
-        print("4. Salir")
+        print("3. EjerciciosPython - Módulo modulo MF0487")
+        print("4. EjerciciosPython - Módulo modulo MF0488")
+        print("5. Salir")
         opcion = input("Opción: ").strip()
         if opcion == "1" or opcion == "":
             menu_principal()
@@ -148,9 +180,12 @@ def iniciar_aplicacion():
             lanzar_gui()
             break
         if opcion == "3":
-            menu_ejercicios_python()
+            menu_ejercicios_python("modulo MF0487")
             continue
         if opcion == "4":
+            menu_ejercicios_python("modulo MF0488")
+            continue
+        if opcion == "5":
             print("Saliendo...")
             break
         print("[ERROR] Opción no válida.")

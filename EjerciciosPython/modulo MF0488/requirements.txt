@@ -1,0 +1,22 @@
+# Módulo MF0488 - Gestión de incidentes de seguridad informática
+# 
+# Este módulo utiliza únicamente librerías estándar de Python.
+# No se requieren dependencias externas.
+# 
+# Librerías estándar utilizadas:
+# - json: Para persistencia de datos
+# - hashlib: Para cálculo de hashes MD5/SHA256
+# - re: Para expresiones regulares
+# - typing: Para anotaciones de tipo
+# - collections: Para Counter y defaultdict
+# - datetime: Para manejo de fechas
+# - pathlib: Para operaciones con rutas
+# - time: Para timestamps
+# 
+# Compatibilidad: Python 3.6+
+# 
+# Nota: Si deseas extender la funcionalidad de estos ejercicios,
+# podrías considerar instalar paquetes opcionales como:
+# - colorama (para salida con colores en terminal)
+# - tabulate (para tablas formateadas)
+# - matplotlib (para gráficos visuales en lugar de ASCII)

@@ -1,6 +1,6 @@
-# Ejercicios del módulo MF0487_3 — Auditoría de seguridad informática
+# Ejercicios MF0487 — Auditoría de seguridad informática
 
-A continuación se presentan los **10 ejercicios prácticos** relacionados con el módulo MF0487_3 del certificado de profesionalidad IFCT0109, orientados a aplicar los conocimientos teóricos mediante scripting en Python.
+A continuación se presentan los **10 ejercicios prácticos** relacionados con MF0487 del certificado de profesionalidad IFCT0109, orientados a aplicar los conocimientos teóricos mediante scripting en Python.
 
 ---
 

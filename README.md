@@ -50,7 +50,9 @@ python main.py --gui
 python gui_app.py
 ```
 
-Tras arrancar en modo CLI encontrarás una opción de menú denominada "EjerciciosPython - Módulo módulo MF0487" que lista automáticamente todos los scripts ubicados en la carpeta `EjerciciosPython/modulo MF0487/` y permite ejecutarlos directamente.
+Tras arrancar en modo CLI encontrarás opciones de menú que listan automáticamente todos los ejercicios organizados por módulos:
+- **EjerciciosPython - Módulo modulo MF0487**: Scripts de auditoría de seguridad
+- **EjerciciosPython - Módulo modulo MF0488**: Scripts de gestión de incidentes
 
 ## 📦 Dependencias
 
@@ -66,12 +68,17 @@ Las dependencias están definidas en `requirements.txt`:
 ├── requirements.txt        # Dependencias del proyecto
 ├── gui_app.py              # Interfaz gráfica con Tkinter
 ├── EjerciciosPython/       # Ejercicios individuales accesibles desde el menú
-│   └── modulo MF0487/
-│       ├── Ejercicio1.py
-│       ├── Ejercicio2.py
+│   ├── modulo MF0487/      # Auditoría de seguridad informática
+│   │   ├── Ejercicio1.py   # Escáner de puertos
+│   │   ├── Ejercicio2.py   # Herramientas de red (ping/traceroute)
+│   │   ├── ...
+│   │   ├── ejercicios.md
+│   │   └── requirements.txt
+│   └── modulo MF0488/      # Gestión de incidentes de seguridad
+│       ├── Ejercicio1.py   # Detector de phishing
+│       ├── Ejercicio2.py   # Sistema de registro de incidentes
 │       ├── ...
-│       ├── ejercicios.md
-│       └── requeriments.txt
+│       └── ejercicios.md
 ├── mod_0486.py             # Seguridad en equipos informáticos
 ├── mod_0487.py             # Auditoría de seguridad informática
 ├── mod_0488.py             # Gestión de incidentes
@@ -108,10 +115,38 @@ Las dependencias están definidas en `requirements.txt`:
 - **Gestión de logs**: Creación de logs centralizados
 
 ### 🧪 EjerciciosPython - Scripts individuales
+
+#### 📁 Módulo MF0487 - Auditoría de seguridad informática
+Ejercicios prácticos sobre auditorías de seguridad:
+1. **Escáner de puertos**: Detecta puertos abiertos en sistemas remotos
+2. **Herramientas de red**: Ping y traceroute para diagnóstico de red
+3. **Escáner de vulnerabilidades web**: Analiza aplicaciones web en busca de fallos comunes
+4. **Verificador de dependencias**: Comprueba versiones de librerías Python
+5. **Generador de planes de auditoría**: Crea checklists personalizados
+6. **Auditoría completa**: Integra múltiples herramientas en un solo informe
+7. **Analizador de logs**: Extrae información de archivos de registro
+8. **Comparador de configuraciones**: Detecta cambios en configuraciones de firewall
+9. **Evaluador de riesgos**: Calcula niveles de riesgo de vulnerabilidades
+10. **Generador de informes PDF**: Crea informes profesionales de auditoría
+
+#### 📁 Módulo MF0488 - Gestión de incidentes de seguridad
+Ejercicios prácticos sobre respuesta a incidentes:
+1. **Detector de phishing**: Analiza correos sospechosos con puntuación de riesgo
+2. **Sistema de registro de incidentes**: Registra y consulta incidentes con persistencia JSON
+3. **Analizador de malware por hash**: Identifica archivos maliciosos mediante hashing MD5/SHA256
+4. **Monitor de integridad de archivos**: Crea líneas base y detecta modificaciones
+5. **Generador de informes HTML**: Produce reportes visuales de incidentes con CSS
+6. **Analizador de logs de servidor**: Detecta ataques en logs Apache/Nginx
+7. **Sistema de notificaciones**: Simula envío de alertas por email según severidad
+8. **Framework NIST de respuesta**: Implementa las 4 fases del ciclo de respuesta a incidentes
+9. **Analizador de tráfico de red**: Detecta anomalías en flujos de red
+10. **Dashboard de incidentes**: Interfaz interactiva con estadísticas y gráficos ASCII
+
+#### Características generales:
 - Los archivos `.py` ubicados en `EjerciciosPython/` se muestran automáticamente en el menú "EjerciciosPython" de la aplicación.
 - El listado se ordena numéricamente (Ejercicio1, Ejercicio2, ...), facilitando su ejecución secuencial.
-- Cada script se ejecuta en su propio contexto y puede generar salidas específicas, como informes CSV en el caso de `Ejercicio2.py`.
-- Desde este menú puedes instalar las dependencias adicionales definidas en `EjerciciosPython/modulo MF0487/requeriments.txt`.
+- Cada script se ejecuta en su propio contexto y puede generar salidas específicas, como informes CSV, JSON, HTML o PDF.
+- Desde el menú puedes instalar las dependencias adicionales definidas en `EjerciciosPython/modulo MF0487/requirements.txt`.
 
 ## 🖥️ Interfaz gráfica (GUI)
 
